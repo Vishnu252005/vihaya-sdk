@@ -1,7 +1,7 @@
 # Vihaya API SDK (Official)
 
 [![npm version](https://img.shields.io/npm/v/vihaya-sdk.svg?style=flat-square)](https://www.npmjs.com/package/vihaya-sdk)
-[![license](https://img.shields.io/npm/l/vihaya-sdk.svg?style=flat-square)](https://github.com/your-username/vihaya-sdk/blob/main/LICENSE)
+[![license](https://img.shields.io/badge/license-MIT-blue.svg?style=flat-square)](https://github.com/Vishnu252005/vihaya-sdk/blob/main/LICENSE)
 
 The official JavaScript/TypeScript SDK for the Vihaya Events platform. Easily integrate event listings, registration, and payment verification into any website.
 
