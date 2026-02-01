@@ -90,14 +90,93 @@ const register = async (eventId: string) => {
 
 ---
 
+## 📝 Building Registration Forms
+
+The Vihaya SDK provides all the metadata you need to build dynamic registration forms in a single `events.get(id)` call. This includes custom fields, pricing tiers, accommodation, and food preferences.
+
+### 1. Fetch Event Metadata
+```typescript
+const event = await vihaya.events.get('event_id');
+
+// event now contains:
+// - event.specialPrices: Pricing tiers (Student, Early Bird, etc.)
+// - event.customFields: Custom input fields (T-Shirt size, etc.)
+// - event.hasAccommodation: Whether accommodation is available
+// - event.collectDietaryPreferences: Whether to ask for food preferences
+```
+
+### 2. Render Tiers (Radio Buttons/Select)
+```tsx
+{event.specialPrices?.map(tier => (
+  <label key={tier.name}>
+    <input type="radio" name="tier" value={tier.name} />
+    {tier.name} - ₹{tier.amount}
+  </label>
+))}
+```
+
+### 3. Render Custom Fields
+```tsx
+{event.customFields?.map(field => (
+  <div key={field.name}>
+    <label>{field.name} {field.required && '*'}</label>
+    {field.type === 'dropdown' ? (
+      <select name={field.name}>
+        {field.options?.map(opt => <option key={opt}>{opt}</option>)}
+      </select>
+    ) : (
+      <input type={field.type} name={field.name} required={field.required} />
+    )}
+  </div>
+))}
+```
+
+### 4. Handle Accommodation & Food
+```tsx
+{event.hasAccommodation && (
+  <div>
+    <h4>Accommodation Available (₹{event.accommodationPrice})</h4>
+    <p>{event.accommodationDetails}</p>
+    <input type="checkbox" name="accommodation" /> I need accommodation
+  </div>
+)}
+
+{event.collectDietaryPreferences && (
+  <select name="food">
+    <option value="veg">Veg</option>
+    <option value="non-veg">Non-Veg</option>
+  </select>
+)}
+```
+
+### 🏢 Handling Mega Events (Parent Events)
+
+If an event is a "Mega Event", it contains multiple "Sub-Events" (e.g., workshops, competitions inside a fest).
+
+```typescript
+const event = await vihaya.events.get('mega_event_id');
+
+if (event.eventType === 'megaEvent') {
+  console.log(`Fest Title: ${event.title}`);
+  
+  // List all sub-events
+  event.subEvents?.forEach(sub => {
+    console.log(`- ${sub.title} (₹${sub.price})`);
+    // Each 'sub' has its own customFields, tiers, etc.
+  });
+}
+```
+
+---
+
 ## 📖 API Reference
 
 ### `Events`
 | Method | Description |
 | :--- | :--- |
 | `list()` | Returns all active events on the platform. |
-| `get(id)` | Fetches comprehensive details for a specific event. |
-| `register(id, data)` | Submits a registration. Required for both free and paid events. |
+| `get(id)` | Fetches comprehensive details (Fields, Tiers, Food, etc.) for an event. |
+| `register(id, data)` | Submits registration data (Custom fields go in `customFields`). |
 
 ### `Payments`
 | Method | Description |
