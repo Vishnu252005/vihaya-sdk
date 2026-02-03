@@ -1,6 +1,6 @@
 {
   "name": "vihaya-sdk",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "description": "The official SDK for integrating Vihaya Events into your applications.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
