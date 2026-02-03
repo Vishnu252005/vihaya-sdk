@@ -1,6 +1,6 @@
 {
   "name": "vihaya-sdk",
-  "version": "1.1.0",
+  "version": "1.3.0",
   "description": "The official SDK for integrating Vihaya Events into your applications.",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -30,7 +30,13 @@
   ],
   "author": "Vihaya Team",
   "license": "MIT",
+  "peerDependencies": {
+    "react": ">=16",
+    "react-dom": ">=16"
+  },
   "devDependencies": {
+    "@types/react": "^18.3.27",
+    "@types/react-dom": "^18.3.7",
     "tsup": "^8.0.2",
     "typescript": "^5.3.3"
   }
