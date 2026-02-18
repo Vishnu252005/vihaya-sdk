@@ -1,5 +1,3 @@
-"use client";
-
 /**
  * Vihaya SDK - Official Client
  * The official JavaScript/TypeScript SDK for the Vihaya Events platform.
@@ -14,7 +12,6 @@ export interface VihayaConfig {
     /** Optional: Override the base API URL (e.g., for local testing). */
     baseUrl?: string;
     /** Optional: Additional headers to send with every request. */
-    /** Optional: Custom headers to include in every request. */
     headers?: Record<string, string>;
 }
 
@@ -44,6 +41,73 @@ export interface SpecialPrice {
 }
 
 /**
+ * Represents a contact person for an event.
+ */
+export interface Contact {
+    id: string;
+    name: string;
+    phone: string;
+    email?: string;
+}
+
+/**
+ * Represents an agenda item for an event.
+ */
+export interface AgendaItem {
+    id: string;
+    title: string;
+    time: string;
+    description: string;
+    speakerId?: string;
+}
+
+/**
+ * Represents a speaker at an event.
+ */
+export interface Speaker {
+    id: string;
+    name: string;
+    role: string;
+    bio: string;
+    imageUrl?: string;
+    linkedinUrl?: string;
+    twitterUrl?: string;
+    websiteUrl?: string;
+}
+
+/**
+ * Represents a sponsor for an event.
+ */
+export interface Sponsor {
+    id: string;
+    name: string;
+    logoUrl: string;
+    category: 'Gold' | 'Silver' | 'Bronze' | 'Media' | 'Other';
+    websiteUrl?: string;
+}
+
+/**
+ * Represents a FAQ item for an event.
+ */
+export interface FAQItem {
+    id: string;
+    question: string;
+    answer: string;
+}
+
+/**
+ * Represents a promo code for discounts.
+ */
+export interface PromoCode {
+    code: string;
+    type: 'fixed' | 'percentage';
+    value: number;
+    usageLimit: number; // -1 for unlimited
+    usedCount: number;
+    isActive?: boolean;
+}
+
+/**
  * Comprehensive details for a Vihaya Event.
  */
 export interface VihayaEvent {
@@ -56,6 +120,8 @@ export interface VihayaEvent {
     description: string;
     /** ISO date string for the event start. */
     date: string;
+    /** ISO date string for the event end. */
+    endDate?: string;
     /** Venue name or basic location info. */
     location: string;
     /** The base price of the event in INR. */
@@ -67,6 +133,13 @@ export interface VihayaEvent {
     /** ISO date string or server timestamp of when the event was created. */
     createdAt?: string;
 
+    // Rich Content
+    agendaList?: AgendaItem[];
+    speakerList?: Speaker[];
+    sponsorList?: Sponsor[];
+    faqList?: FAQItem[];
+    contactList?: Contact[];
+
     // Registration Form Metadata
     /** List of global custom fields for registration. */
     customFields?: CustomField[];
@@ -74,6 +147,14 @@ export interface VihayaEvent {
     specialPrices?: SpecialPrice[];
     /** Whether the event has special prices enabled. */
     hasSpecialPrices?: boolean;
+    /** List of active promo codes. */
+    promoCodes?: PromoCode[];
+
+    // Platform Fees
+    hasPlatformFee?: boolean;
+    platformFee?: number;
+    platformFeeType?: 'fixed' | 'percentage';
+    passPlatformFeeToUser?: boolean;
 
     // Default Collection Flags
     collectDietaryPreferences?: boolean;
@@ -112,6 +193,14 @@ export interface VihayaEvent {
     contactPhone?: string;
     contactEmail?: string;
     contactPersonName?: string;
+    eventMode?: 'In-Person' | 'Online' | 'Hybrid';
+    timezone?: string;
+    currency?: string;
+
+    // Registration Logistics
+    registrationDeadline?: string;
+    requiresApproval?: boolean;
+    waitlistAvailable?: boolean;
 
     // Mega Events (Parent Events)
     /** List of sub-events if this is a mega event. */
@@ -138,7 +227,7 @@ export interface RegisterData {
 
     /** Optional: Selected special pricing tier name. */
     specialPrice?: string;
-    /** Optional: Applied promotion code. */
+    /** Optional: Applied promotion code string. */
     promoCode?: string;
     /** Optional: Flag indicating early bird price was applied. */
     isEarlyBirdApplied?: boolean;
@@ -160,6 +249,9 @@ export interface RegisterData {
 
     /** Internal: User ID from your system. */
     userId?: string;
+
+    /** Source of registration (defaults to 'api'). */
+    source?: string;
 }
 
 /**
