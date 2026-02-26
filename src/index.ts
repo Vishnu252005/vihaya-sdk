@@ -163,18 +163,12 @@ export interface VihayaEvent {
     collectAffiliation?: boolean;
     collectResearchInterests?: boolean;
     collectTShirtSize?: boolean;
+    /** Whether food scanning is enabled for this event. */
+    enableFoodScanning?: boolean;
+    /** How many times each attendee can scan for food. */
+    foodScanLimit?: number;
 
-    // Accommodation & Food
-    /** Whether accommodation is offered for this event. */
-    hasAccommodation?: boolean;
-    /** Price for accommodation in INR. */
-    accommodationPrice?: number;
-    /** Details about the accommodation offered. */
-    accommodationDetails?: string;
-    /** Whether food coupons are available for purchase. */
-    hasFoodCoupons?: boolean;
-    /** Price for food coupons in INR. */
-    foodCouponPrice?: number;
+
 
     // Team Registration
     /** Whether this event requires registration as a team. */
